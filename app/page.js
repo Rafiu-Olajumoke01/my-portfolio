@@ -1,103 +1,259 @@
-import Image from "next/image";
+'use client';
+import React, { useState, useEffect } from 'react';
+import './globals.css';
+import Home from './Home/page';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+function Page() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isHovering, setIsHovering] = useState(false);
+    const [cursorBg, setCursorBg] = useState('rgba(196, 208, 236, 0.1)');
+    const [screenSize, setScreenSize] = useState({ width: 1920, height: 1080 });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+        }
+
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const updateMousePosition = (e) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+
+            const elementUnderCursor = document.elementFromPoint(e.clientX, e.clientY);
+            if (elementUnderCursor) {
+                const computedStyle = window.getComputedStyle(elementUnderCursor);
+                const bgColor = computedStyle.backgroundColor;
+                const bgImage = computedStyle.backgroundImage;
+
+                if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+                    const rgba = bgColor.match(/\d+/g);
+                    if (rgba && rgba.length >= 3) {
+                        const r = parseInt(rgba[0]);
+                        const g = parseInt(rgba[1]);
+                        const b = parseInt(rgba[2]);
+                        setCursorBg(`rgba(${r + 50}, ${g + 50}, ${b + 50}, 0.3)`);
+                    }
+                } else if (bgImage && bgImage !== 'none') {
+                    setCursorBg('rgba(100, 150, 255, 0.3)');
+                } else {
+                    setCursorBg('rgba(196, 208, 236, 0.15)');
+                }
+            }
+        };
+
+        const handleMouseEnter = () => setIsHovering(true);
+        const handleMouseLeave = () => setIsHovering(false);
+
+        window.addEventListener('mousemove', updateMousePosition);
+
+        const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', handleMouseEnter);
+            el.addEventListener('mouseleave', handleMouseLeave);
+        });
+
+        return () => {
+            window.removeEventListener('mousemove', updateMousePosition);
+            interactiveElements.forEach(el => {
+                el.removeEventListener('mouseenter', handleMouseEnter);
+                el.removeEventListener('mouseleave', handleMouseLeave);
+            });
+        };
+    }, []);
+
+    const loadingVariants = {
+        initial: { scale: 1, rotate: 0 },
+        animate: {
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+            transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+        },
+        exit: {
+            scale: 0,
+            opacity: 0,
+            transition: { duration: 0.5 }
+        }
+    };
+
+    const pageVariants = {
+        initial: { opacity: 0, scale: 0.9, filter: "blur(20px)" },
+        animate: {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            transition: { duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }
+        }
+    };
+
+   const backgroundVariants = {
+  initial: {
+    backgroundColor: "#C71585"
+  },
+};
+
+    return (
+        <motion.div
+            className="min-h-screen text-white relative overflow-hidden cursor-none"
+            variants={backgroundVariants}
+            initial="initial"
+            animate="animate"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+            <AnimatePresence mode="wait">
+                {isLoading ? (
+                    <motion.div
+                        key="loading"
+                        className="fixed inset-0 flex items-center justify-center bg-[#fddbd4] z-50"
+                        variants={loadingVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                    >
+                        <div className="text-center">
+                            <motion.div
+                                className="w-16 h-16 border-4 border-[#f4c2c2] border-t-transparent rounded-full mx-auto mb-4"
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            />
+                            <motion.h2
+                                className="text-[#f4c2c2] text-xl font-semibold"
+                                animate={{ opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                Loading Portfolio...
+                            </motion.h2>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="content"
+                        variants={pageVariants}
+                        initial="initial"
+                        animate="animate"
+                        className="relative z-10"
+                    >
+                        <Home />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Cursor Section (unchanged) */}
+            <motion.div
+                className="fixed pointer-events-none z-[9999]"
+                style={{ left: mousePosition.x, top: mousePosition.y }}
+                animate={{ x: -20, y: -20 }}
+                transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.5 }}
+            >
+                <motion.div
+                    className="relative w-10 h-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-full shadow-2xl"
+                    animate={{ 
+                        scale: isHovering ? 1.4 : 1,
+                        backgroundColor: isHovering ? "rgba(244, 194, 194, 0.2)" : "rgba(255, 255, 255, 0.1)",
+                        borderColor: isHovering ? "rgba(244, 194, 194, 0.4)" : "rgba(255, 255, 255, 0.2)"
+                    }}
+                    transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                    <motion.div
+                        className="absolute inset-1 rounded-full bg-gradient-to-br from-white/30 to-transparent"
+                        animate={{ 
+                            opacity: isHovering ? 0.8 : 0.4,
+                            background: isHovering 
+                                ? "linear-gradient(135deg, rgba(244, 194, 194, 0.4) 0%, rgba(253, 219, 212, 0.2) 50%, transparent 100%)"
+                                : "linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%)"
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                    <motion.div
+                        className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
+                        animate={{ 
+                            scale: isHovering ? 0.8 : 1,
+                            backgroundColor: isHovering ? "#f4c2c2" : "#ffffff"
+                        }}
+                        transition={{ duration: 0.2 }}
+                    />
+                </motion.div>
+
+                <motion.div
+                    className="absolute top-1/2 left-1/2 w-16 h-16 transform -translate-x-1/2 -translate-y-1/2"
+                    animate={{ 
+                        scale: isHovering ? 1.2 : 1,
+                        rotate: 360
+                    }}
+                    transition={{ 
+                        scale: { duration: 0.4, ease: "easeOut" },
+                        rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+                    }}
+                >
+                    <div className="w-full h-full rounded-full border border-gradient-to-r from-pink-300/30 via-rose-300/30 to-rose-200/30 opacity-60">
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-300/20 via-rose-300/20 to-rose-200/20 blur-sm"></div>
+                    </div>
+                </motion.div>
+
+                <motion.div
+                    className="absolute top-1/2 left-1/2"
+                    style={{ x: -1, y: -1 }}
+                >
+                    {[...Array(6)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 bg-gradient-to-r from-pink-400 to-rose-400 rounded-full"
+                            animate={{
+                                x: [0, Math.cos(i * 60 * Math.PI / 180) * 25],
+                                y: [0, Math.sin(i * 60 * Math.PI / 180) * 25],
+                                opacity: [0, 0.8, 0],
+                                scale: [0, 1, 0]
+                            }}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                                ease: "easeInOut"
+                            }}
+                        />
+                    ))}
+                </motion.div>
+
+                <motion.div
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={{
+                        rotate: [0, 360],
+                        opacity: isHovering ? 0.6 : 0.3
+                    }}
+                    transition={{
+                        rotate: { duration: 3, repeat: Infinity, ease: "linear" },
+                        opacity: { duration: 0.3 }
+                    }}
+                    style={{
+                        clipPath: "polygon(45% 0%, 55% 0%, 65% 100%, 35% 100%)"
+                    }}
+                />
+
+                <AnimatePresence>
+                    {isHovering && (
+                        <motion.div
+                            className="absolute top-1/2 left-1/2 w-24 h-24 transform -translate-x-1/2 -translate-y-1/2"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 0.4, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="w-full h-full rounded-full border-2 border-dashed border-pink-400/40 animate-pulse">
+                                <div className="absolute inset-2 rounded-full border border-rose-400/30"></div>
+                                <div className="absolute inset-4 rounded-full border border-rose-300/20"></div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+        </motion.div>
+    );
 }
+
+export default Page;
