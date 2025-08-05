@@ -8,14 +8,14 @@ import Experience from '../experience/Experience'
 
 function Page() {
   return (
-    <div className="flex h-screen overflow-hidden relative">
+    <div className="grid grid-cols-1 md:grid-cols-[45%_55%] md:h-screen md:overflow-hidden">
       {/* Left sidebar */}
-      <div className="w-[45%] overflow-y-auto text-white">
+      <div className="text-white md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         <Sidenav />
       </div>
 
       {/* Right scrollable content */}
-      <div className="w-[55%] overflow-y-auto no-scrollbar text-white scroll-smooth relative">
+      <div className="overflow-y-auto no-scrollbar text-white scroll-smooth relative">
         <div className="min-h-screen pt-10 px-4">
           <Allsection />
         </div>

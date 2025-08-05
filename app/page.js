@@ -95,7 +95,7 @@ function Page() {
 
    const backgroundVariants = {
   initial: {
-    backgroundColor: "#C71585"
+    backgroundColor: "#5D3A66"
   },
 };
 
@@ -203,7 +203,7 @@ function Page() {
                     {[...Array(6)].map((_, i) => (
                         <motion.div
                             key={i}
-                            className="absolute w-1 h-1 bg-gradient-to-r from-pink-400 to-rose-400 rounded-full"
+                            className="absolute w-1 h-1 bg-[#5D3A66] rounded-full"
                             animate={{
                                 x: [0, Math.cos(i * 60 * Math.PI / 180) * 25],
                                 y: [0, Math.sin(i * 60 * Math.PI / 180) * 25],
@@ -221,7 +221,7 @@ function Page() {
                 </motion.div>
 
                 <motion.div
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    className="absolute inset-0 rounded-full bg-[#5D3A66] via-white/20 to-transparent"
                     animate={{
                         rotate: [0, 360],
                         opacity: isHovering ? 0.6 : 0.3

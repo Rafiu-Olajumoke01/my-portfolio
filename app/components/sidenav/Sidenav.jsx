@@ -84,11 +84,11 @@ function Sidenav() {
 
     // Social media data
     const socialLinks = [
-        { name: "GitHub", href: "#", icon: "github" },
-        { name: "LinkedIn", href: "#", icon: "linkedin" },
-        { name: "Twitter", href: "#", icon: "twitter" },
-        { name: "Email", href: "#", icon: "email" },
-        { name: "Instagram", href: "#", icon: "instagram" }
+        { name: "GitHub", href: "https://github.com/Rafiu-Olajumoke01", icon: "github" },
+        { name: "LinkedIn", href: "https://www.linkedin.com/in/rafiu-olajumoke-084374318", icon: "linkedin" },
+        { name: "Twitter", href: "https://www.twitter.com/@_ByteMe_", icon: "twitter" },
+        { name: "Email", href: "mailto:rafiuolajumoke7@gmail.com", icon: "email" },
+        { name: "Instagram", href: "", icon: "instagram" }
     ];
 
     // Simple icon components (since we can't import external icon libraries)
@@ -235,7 +235,7 @@ function Sidenav() {
                             <motion.a
                                 key={index}
                                 href={social.href}
-                                className="w-12 h-12 rounded-full bg-[#1a1a2e] border border-[#e2e8f5]/20 flex items-center justify-center text-[#e2e8f5] cursor-pointer"
+                                className="w-12 h-12 rounded-full bg-[#1a1a2e] border  flex items-center justify-center text-[#e2e8f5] cursor-pointer"
                                 style={{
                                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(96, 165, 250, 0.1)'
                                 }}
@@ -243,10 +243,10 @@ function Sidenav() {
                                 whileHover={{
                                     scale: 1.1,
                                     y: -4,
-                                    backgroundColor: "#60A5FA",
-                                    borderColor: "#60A5FA",
+                                    backgroundColor: "#5D3A66",
+                                    borderColor: "white",
                                     color: "#ffffff",
-                                    boxShadow: '0 8px 25px rgba(96, 165, 250, 0.3), 0 4px 15px rgba(0, 0, 0, 0.4)',
+                                    boxShadow: 'white',
                                     transition: { duration: 0.3 }
                                 }}
                                 title={social.name}
