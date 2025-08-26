@@ -6,6 +6,14 @@ import Image from 'next/image';
 const projects = [
   {
     id: 1,
+    title: "Myxellia Dashboard",
+    url: "https://myxellia-rouge.vercel.app/",
+    image: "/myxellia.jpg", // Make sure this image exists in your /public folder
+    description: "Myxellia Dashboard is a clean, functional, and responsive admin interface I designed and built to showcase my ability in dashboard UI/UX. It integrates interactive components and thoughtful design to provide clarity and performance.",
+    tech: ["Next.js", "Tailwind CSS", "Responsive UI", "Dashboard Design"]
+  },
+  {
+    id: 2,
     title: "Cuisinetreat",
     url: "https://cuisinetreat.onrender.com",
     image: "/cuisinetreat.jpg",
@@ -13,7 +21,7 @@ const projects = [
     tech: ["React", "Node.js", "MongoDB", "Express"]
   },
   {
-    id: 2,
+    id: 3,
     title: "Zenith Culinary",
     url: "https://zenithculinary.com",
     image: "/culinary.jpg",
@@ -21,7 +29,7 @@ const projects = [
     tech: ["Next.js", "CSS3", "JavaScript", "Responsive Design"]
   },
   {
-    id: 3,
+    id: 4,
     title: "Vault Software Company",
     url: "https://new-vault.vercel.app/",
     image: "/vault.jpg",
@@ -29,7 +37,7 @@ const projects = [
     tech: ["React", "Tailwind CSS", "Vercel", "Modern UI/UX"]
   },
   {
-    id: 4,
+    id: 5,
     title: "Dejaneeseconcepts",
     url: "https://dejaneeseconcepts.com.ng",
     image: "/dejaneese.jpg",
@@ -37,7 +45,7 @@ const projects = [
     tech: ["HTML5", "CSS3", "JavaScript", "Responsive Design"]
   },
   {
-    id: 5,
+    id: 6,
     title: "Lagos School Of Programming",
     url: "https://lasop.net",
     image: "/lasop.jpg",
@@ -45,7 +53,7 @@ const projects = [
     tech: ["React", "Team Collaboration", "Educational Platform", "Community Features"]
   },
   {
-    id: 6,
+    id: 7,
     title: "Weather Mapp",
     url: "https://city-weather-map.vercel.app/",
     image: "/weathermapp.jpg",
@@ -53,7 +61,7 @@ const projects = [
     tech: ["JavaScript", "Weather API", "Geolocation", "Real-time Data"]
   },
   {
-    id: 7,
+    id: 8,
     title: "Nord Automobile",
     url: "https://nordcom-coded-features.vercel.app/",
     image: "/nord.jpg",
