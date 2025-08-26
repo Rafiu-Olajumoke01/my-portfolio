@@ -8,9 +8,9 @@ const projects = [
     id: 1,
     title: "Myxellia Dashboard",
     url: "https://myxellia-rouge.vercel.app/",
-    image: "/myxellia.jpg", // Make sure this image exists in your /public folder
+    image: "/newxellia.jpg", 
     description: "Myxellia Dashboard is a clean, functional, and responsive admin interface I designed and built to showcase my ability in dashboard UI/UX. It integrates interactive components and thoughtful design to provide clarity and performance.",
-    tech: ["Next.js", "Tailwind CSS", "Responsive UI", "Dashboard Design"]
+    tech: ["React.js", "CSS", 'Recharts',  "Responsive UI", "Dashboard Design"]
   },
   {
     id: 2,
